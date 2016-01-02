@@ -6,7 +6,7 @@
 
 #include "json.h"
 #include <stdlib.h>
-#include <sys/types.h>
+typedef unsigned char u_char;
 #include <bsd/stdlib.h>
 #include <stdio.h>
 
@@ -32,7 +32,14 @@ struct JSON_OBJECT {
 	struct JSON_OBJECT* next;
 };
 
+/**
+ * @struct JSON_ITEM json.h "json.h"
+ * @brief JSON value, such as a numeric, string, boolean, list or object.
+ */
 struct JSON_ITEM {
+	/**
+	 * @brief Internal type of stored item, such as the C type, or list or object.
+	 */
 	enum ITEM_TYPE type;
 	union {
 		struct JSON_LIST* t_list;
@@ -46,8 +53,18 @@ struct JSON_ITEM {
 	} value;
 };
 
+/**
+ * @struct JSON_ENTRY json.h "json.h"
+ * @brief Key-Value JSON Pair, with a key, and a value.
+ */
 struct JSON_ENTRY {
+	/**
+	 * @brief Key for an entry in a JSON Object.
+	 */
 	char* key;
+	/**
+	 * @brief Value for an entry in a JSON Object.
+	 */
 	struct JSON_ITEM* value;
 };
 
@@ -215,7 +232,7 @@ int json_print_object(FILE* output, struct JSON_OBJECT* object);
 char* json_escape(char* input){
 	size_t len = 0, i = 0;
 	while(input[i] != '\0'){
-		if(input[i]=='\n'||input[i]=='\b'||input[i]=='\r'||input[i]=='\c'||input[i]=='\''||input[i]=='\"'||input[i]=='\\'){
+		if(input[i]=='\n'||input[i]=='\b'||input[i]=='\r'||input[i]=='\a'||input[i]=='\''||input[i]=='\"'||input[i]=='\\'){
 			len += 2;
 		} else {
 			len++;
@@ -240,9 +257,9 @@ char* json_escape(char* input){
 			output[j++] = '\\';
 			output[j++] = 'b';
 			break;
-		case '\c':
+		case '\a':
 			output[j++] = '\\';
-			output[j++] = 'c';
+			output[j++] = 'a';
 			break;
 		case '\t':
 			output[j++] = '\\';

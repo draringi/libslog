@@ -13,7 +13,16 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+/**
+ * @struct JSON_ITEM
+ * @brief JSON value, such as a numeric, string, boolean, list or object.
+ */
 struct JSON_ITEM;
+
+/**
+ * @struct JSON_ENTRY
+ * @brief Key-Value JSON Pair, with a key, and a value.
+ */
 struct JSON_ENTRY;
 
 struct JSON_ITEM* json_list();
